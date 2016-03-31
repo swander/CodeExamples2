@@ -1,0 +1,163 @@
+package hw6;
++
++
++import java.util.ArrayList;
++
++public class PlotPlot {
++	
++	public static int[] getChoicesForOnePage(String string){
++	if(string.equals("p")){
++		return null;
++	}else if (string.equals("")){
++		return new int [0];
++		}
++	String[] strArray = string.split(",");
++	int[] numArray = new int[strArray.length];
++	for(int i = 0; i < numArray.length; i++){
++		numArray[i] = Integer.parseInt(strArray[i]) - 1;
++	}
++		return numArray;
++	}
++	
++	public static int[][] getChoicesForAllPages(String string){
++		
++		String strArray[];
++		strArray = string.split("\\|",-1);
++		int [][] numArray = new int[strArray.length][strArray.length];
++		
++		for(int i = 0; i < strArray.length; i++){
++			for(int j = 0; j< strArray.length; j++){
++				numArray[i] = getChoicesForOnePage(strArray[i]);
++				numArray[j] = getChoicesForOnePage(strArray[j]);
++				}
++		};
++		
++		return numArray;
++	}
++	
++	public static ArrayList<Integer> getForkPages(int[][] numArray){
++		
++		ArrayList<Integer> al = new ArrayList<>();
++		for(int i = 0; i < numArray.length; i++){
++			if(numArray[i] == null){
++				
++			}else if(numArray[i].length > 1){
++				al.add(i);
++			}
++		}
++		
++		 return al;
++}
++	
++	public static ArrayList<Integer> getEndPages(int[][] numArray){
++		ArrayList<Integer> al = new ArrayList<>();
++		for(int i = 0; i < numArray.length; i++){
++			if(numArray[i] == null){
++				
++			}else if(numArray[i].length == 0){
++				al.add(i);
++			}
++		}
++		
++		return al;
++	}
++	
++	public static ArrayList<Integer> getOrphanPages(int[][] array) {
++		
++		ArrayList<Integer> a1 = new ArrayList<>();
++		ArrayList<Integer> a2 = new ArrayList<>();
++		a1.add(0);
++		
++		for(int i = 0; i < array.length ; i++){
++			if(array[i] == null){
++				if(!a1.contains(i)){
++					a1.add(i);
++				}
++			}else{
++				for(int j = 0; j < array[i].length; j++){
++					if(!a1.contains(array[i][j])){
++						a1.add(array[i][j]);
++					}
++					
++					
++					
++				}
++			}
++		}
++		
++		for(int i = 0; i < array.length; i++){
++			
++			if(!a1.contains(i)){
++				a2.add(i);
++			}
++		}
++		
++		return a2;
++	}
++		 
++		public static void dotEndPages(int[][] array) {
++			
++			for(int i = 0; i < array.length; i ++){
++				if(array[i] == null){
++					
++				}else if(array[i].length == 0){
++					
++					
++					System.out.println("  " + (i+1) +" "+ "[peripheries=2];");
++				}
++			}
++			
++		 
++		}
++		 
++		public static void dotOrphanPages(int[][] array) {
++			 ArrayList<Integer> pages = getOrphanPages(array);
++			for(int i = 0; i < pages.size(); i ++){
++				
++				System.out.println("  " + (pages.get(i) + 1) + " " + "[style=dashed];");
++			}
++		 
++		}
++		 
++		public static void dotPlot(int[][] array) {
++			for (int i = 0; i < array.length; i++) {
++				if (array[i] != null && array[i].length != 0) {
++				 
++				for (int j = 0; j < array[i].length; j++) {
++				System.out.println("  " + (i + 1) + " -> " + (array[i][j] + 1) + ";");
++				 
++				}
++				}
++				}
++				
++		}
++		 
++		public static void dot(int[][] array){
++		 
++			System.out.println("digraph G {");
++			dotEndPages(array);
++			dotOrphanPages(array);
++			dotPlot(array);
++			System.out.println("}");
++		}
++		 
++		public static ArrayList<Integer> getPathOfFirsts(int[][] array){
++			ArrayList<Integer> a1 = new ArrayList<>();
++			a1.add(0);
++			int i = 0;
++			boolean finish = false;
++			
++			while(finish == false){
++				int mid = array[i][0];
++				i = mid;
++				if(array[i].length == 0){
++					finish = true;
++				}
++				a1.add(i);
++			}
++		 
++		 return a1;
++		}
+Add a comment to this line
++		
++}
